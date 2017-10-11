@@ -22,7 +22,7 @@ namespace Hangman
         public string TheWord, BadGuesses, GoodGuesses, PossibleLetters, GuessesSoFar;
         //number of guesses
         public int GuessCount;
-        //required to reset so you can't guess before word is pickedw
+        //required to reset so you can't guess before word is picked
         bool GameStarted = false;
 
         public Form1()
@@ -31,6 +31,8 @@ namespace Hangman
             PlayButton.Hide();
             numericUpDown1.Hide();
             GuessCountLabel.Hide();
+            WinningGif.Hide();
+            GuessButton.Hide();
         }
         //open screen
         private void StartButton_Click(object sender, EventArgs e)
@@ -47,25 +49,57 @@ namespace Hangman
             {
                 try
                 {
-                    //pick beginning letter at random
+                    //pick beginning letter based on popularity, words left
                     Random r = new Random();
-                    int index = r.Next(0, PossibleLetters.Length);
-                    string guess = PossibleLetters[index].ToString();
-                    PossibleLetters.Remove(index);
+                    int index = 0;
+                    string guess = "";
 
-                    //if letter has not been picked and IS in word
-                    if (TheWord.Contains(guess) && !GoodGuesses.Contains(guess) && !BadGuesses.Contains(guess))
+                    //guess first letters of remaining words after first hit
+                    if(GoodGuesses.Length == 1)
                     {
-                        GoodGuesses += guess;
+                        index = r.Next(0, PossibleWords.Length);
+                        guess = PossibleWords[index][PossibleWords[index].Length-1].ToString();
+                    }//if we are one guess away
+                    else if(TheWord.Length - GoodGuesses.Length == 1)
+                    {
+                        index = label2.Text.IndexOf("_");
+                        guess = PossibleWords[0][index].ToString();
+                    }else
+                    {
+                        //guess based on letters found in possible words
+                        index = label2.Text.IndexOf("_");
+                        guess = PossibleWords[r.Next(0,PossibleWords.Length)][index].ToString();
+
+                        //if letter has been guessed - guess based on popular
+                        if (GuessesSoFar.Contains(guess))
+                        {
+                            //just guess on the popular side of random letters
+                            {
+                                index = r.Next(0, PossibleLetters.Length / 3);
+                                guess = PossibleLetters[index].ToString();
+                            }
+                        }
+                    }
+                    
+                    PossibleLetters = PossibleLetters.Replace(guess, "");
+
+                    //letter is a good guess
+                    if (TheWord.Contains(guess))
+                    {
+                        
                         //change word string
                         string temp = "";
                         int i = 0;
                         foreach (char c in TheWord)
                         {
                             string letter = c.ToString();
-                            if (letter.Equals(guess))
+                            if (letter.Equals(guess)) //add it and sort words based on position of guess
                             {
                                 temp += guess;
+                                GoodGuesses += guess;
+                                PossibleWords = (from p in PossibleWords
+                                                 where p[i] == TheWord[i]
+                                                 select p).ToArray();
                             }
                             else
                             {
@@ -76,12 +110,10 @@ namespace Hangman
                         label2.Text = temp;
                         GuessesSoFar = temp;
 
-                        PossibleWords = (from p in PossibleWords
-                                         where p.Contains(guess)
-                                         select p).ToArray();
+                        
 
-                    }//if letter has not been picked and is NOT in word
-                    else if (!BadGuesses.Contains(guess) && !GoodGuesses.Contains(guess))
+                    }//letter is a bad guess
+                    else
                     {
                         BadGuesses += guess;
                         label1.Text = BadGuesses;
@@ -92,9 +124,17 @@ namespace Hangman
                                          where !p.Contains(guess)
                                          select p).ToArray();
                     }
-                    else
+
+                    possible.Text = PossibleLetters;
+                    possiblewordcount.Text = PossibleWords.Length.ToString();
+
+                    if (GuessCount == 0)
                     {
-                        //do nothing - guess again
+                        WinningGif.Show();
+                    }
+                    if(label2.Text == TheWord)
+                    {
+                        GuessButton.Hide();
                     }
                 }
                 catch(Exception ex)
@@ -165,9 +205,11 @@ namespace Hangman
             GameStarted = true;
             GuessCountLabel.Text = GuessCount.ToString();
             GuessCountLabel.Show();
+            WinningGif.Hide();
+            GuessButton.Show();
             GoodGuesses = "";
             BadGuesses = "";
-            PossibleLetters = "abcdefghijklmnopqrstuvwxyz";
+            PossibleLetters = "etainoshrdlucmfwygpbvkqjxz"; //most popular letters based on https://en.oxforddictionaries.com/explore/which-letters-are-used-most
             GuessesSoFar = "";
             label1.Text = "";
             label2.Text = "";

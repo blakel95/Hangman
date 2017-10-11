@@ -8,3 +8,18 @@ c:\users\blaker\documents\visual studio 2017\Projects\Hangman\Hangman\obj\Debug\
 c:\users\blaker\documents\visual studio 2017\Projects\Hangman\Hangman\obj\Debug\Hangman.exe
 c:\users\blaker\documents\visual studio 2017\Projects\Hangman\Hangman\obj\Debug\Hangman.pdb
 c:\users\blaker\documents\visual studio 2017\Projects\Hangman\Hangman\obj\Debug\Hangman.csprojResolveAssemblyReference.cache
+D:\Hangman\Hangman\bin\Debug\words.txt
+D:\Hangman\Hangman\bin\Debug\Hangman.exe.config
+D:\Hangman\Hangman\bin\Debug\Hangman.exe
+D:\Hangman\Hangman\bin\Debug\Hangman.pdb
+D:\Hangman\Hangman\obj\Debug\Hangman.csprojResolveAssemblyReference.cache
+D:\Hangman\Hangman\obj\Debug\Hangman.Form1.resources
+D:\Hangman\Hangman\obj\Debug\Hangman.Properties.Resources.resources
+D:\Hangman\Hangman\obj\Debug\Hangman.csproj.GenerateResource.Cache
+D:\Hangman\Hangman\obj\Debug\Hangman.csproj.CoreCompileInputs.cache
+D:\Hangman\Hangman\obj\Debug\Hangman.exe
+D:\Hangman\Hangman\obj\Debug\Hangman.pdb
+D:\Hangman\Hangman\bin\Debug\Hangman.exe.manifest
+D:\Hangman\Hangman\bin\Debug\Hangman.application
+D:\Hangman\Hangman\obj\Debug\Hangman.exe.manifest
+D:\Hangman\Hangman\obj\Debug\Hangman.application

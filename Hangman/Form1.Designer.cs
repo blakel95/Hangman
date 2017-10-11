@@ -37,7 +37,11 @@
             this.GuessButton = new System.Windows.Forms.Button();
             this.GuessCountLabel = new System.Windows.Forms.Label();
             this.test = new System.Windows.Forms.Label();
+            this.WinningGif = new System.Windows.Forms.PictureBox();
+            this.possible = new System.Windows.Forms.Label();
+            this.possiblewordcount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WinningGif)).BeginInit();
             this.SuspendLayout();
             // 
             // StartButton
@@ -128,11 +132,41 @@
             this.test.Size = new System.Drawing.Size(0, 13);
             this.test.TabIndex = 8;
             // 
+            // WinningGif
+            // 
+            this.WinningGif.Image = global::Hangman.Properties.Resources.hanging;
+            this.WinningGif.Location = new System.Drawing.Point(218, 57);
+            this.WinningGif.Name = "WinningGif";
+            this.WinningGif.Size = new System.Drawing.Size(240, 214);
+            this.WinningGif.TabIndex = 9;
+            this.WinningGif.TabStop = false;
+            // 
+            // possible
+            // 
+            this.possible.AutoSize = true;
+            this.possible.Location = new System.Drawing.Point(27, 296);
+            this.possible.Name = "possible";
+            this.possible.Size = new System.Drawing.Size(35, 13);
+            this.possible.TabIndex = 10;
+            this.possible.Text = "label3";
+            // 
+            // possiblewordcount
+            // 
+            this.possiblewordcount.AutoSize = true;
+            this.possiblewordcount.Location = new System.Drawing.Point(30, 263);
+            this.possiblewordcount.Name = "possiblewordcount";
+            this.possiblewordcount.Size = new System.Drawing.Size(35, 13);
+            this.possiblewordcount.TabIndex = 11;
+            this.possiblewordcount.Text = "label3";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(680, 344);
+            this.Controls.Add(this.possiblewordcount);
+            this.Controls.Add(this.possible);
+            this.Controls.Add(this.WinningGif);
             this.Controls.Add(this.test);
             this.Controls.Add(this.GuessCountLabel);
             this.Controls.Add(this.GuessButton);
@@ -146,6 +180,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WinningGif)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -161,6 +196,9 @@
         private System.Windows.Forms.Button GuessButton;
         private System.Windows.Forms.Label GuessCountLabel;
         private System.Windows.Forms.Label test;
+        private System.Windows.Forms.PictureBox WinningGif;
+        private System.Windows.Forms.Label possible;
+        private System.Windows.Forms.Label possiblewordcount;
     }
 }
 
