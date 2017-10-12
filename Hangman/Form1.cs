@@ -22,7 +22,7 @@ namespace Hangman
         public SortedSet<String> PossibleWordSet, TempSet, WordSet;
 
         //the chosen word, bad and good guess lists, unchosen letters, guess format
-        public string TheWord, BadGuesses, GoodGuesses, PossibleLetters, GuessesSoFar;
+        public string TheWord, BadGuesses, GoodGuesses, PossibleLetters, GuessesSoFar, Guess;
         //number of guesses
         public int GuessCount;
         //required to reset so you can't guess before word is picked
@@ -35,8 +35,82 @@ namespace Hangman
             numericUpDown1.Hide();
             GuessCountLabel.Hide();
             WinningGif.Hide();
-            GuessButton.Hide();
+            WrongButton.Hide();
+            RightButton.Hide();
+            IndexInfo.Hide();
+            IndexButton.Hide();
         }
+
+        private void IndexButton_Click(object sender, EventArgs e)
+        {
+            //index will be user
+            //change word string
+            //IndexButton.Hide();
+            //IndexInfo.Hide();
+            //WrongButton.Show();
+            //RightButton.Show();
+
+            GuessText.Text = Guess;
+            string temp = IndexInfo.Text;
+            IndexInfo.Hide();
+            IndexButton.Hide();
+            TipText.Hide();
+            List<int> indexList = temp.Split(',').Select(int.Parse).ToList();
+            
+
+            foreach (int i in indexList )
+            {
+               
+                StringBuilder sb = new StringBuilder(TheWord);
+                sb[i] = char.Parse(Guess);
+                TheWord = sb.ToString();
+
+                //might need to do a temp set = to possibleWordSet and run the query on that
+                PossibleWordSet = new SortedSet<string>(from p in PossibleWordSet
+                                                        where p[i] == TheWord[i] //the guess
+                                                        select p);
+            }
+            label2.Text = TheWord;
+            GuessesSoFar += Guess;
+
+            possible.Text = PossibleLetters;
+            possiblewordcount.Text = PossibleWordSet.Count.ToString();
+
+
+
+            //new guess
+            var count = TheWord.Count(x => x == '_'); //count of _
+            if(count == 1)
+            {
+                PossibleWordSet = new SortedSet<string>(from p in PossibleWordSet
+                                                        where PossibleLetters.Contains(p[TheWord.IndexOf('_')])  //the guess
+                                                        select p);
+            }
+
+            PossibleLetters = PossibleLetters.Replace(Guess, "");
+            
+            Guess = PossibleLetters[0].ToString();
+
+            GuessText.Text = Guess;
+
+            WrongButton.Show();
+            RightButton.Show();
+            IndexInfo.Clear();
+        }
+
+        private void RightButton_Click(object sender, EventArgs e)
+        {
+            RightButton.Hide();
+            WrongButton.Hide();
+            MakeGuess(true);
+            
+        }
+
+        private void WrongButton_Click(object sender, EventArgs e)
+        {
+            MakeGuess(false);
+        }
+
         //open screen
         private void StartButton_Click(object sender, EventArgs e)
         {
@@ -46,99 +120,65 @@ namespace Hangman
             HowManyText.Text = "How Many Letters In The Word?";
         }
 
-        private void GuessButton_Click(object sender, EventArgs e)
+        private void MakeGuess(bool correct)
         {
             //if game has started
-            if(GameStarted && GuessCount > 0)
+            if (GameStarted && GuessCount > 0)
             {
                 try
                 {
-                    //guess first most common letter left
-                    Random r = new Random();
-                    int index = 0;
-                    string guess = "";
-
-                    guess = PossibleLetters[0].ToString();
-
-                    ////if we are one guess away
-                    //if(TheWord.Length - GoodGuesses.Length == 1)
-                    //{
-                    //    index = label2.Text.IndexOf("_");
-                    //    guess = PossibleWords[0][index].ToString();
-                    //}else
-                    //{
-                    //    //guess based on letters found in possible words
-                    //    index = label2.Text.IndexOf("_");
-                    //    guess = PossibleWords[r.Next(0,PossibleWords.Length)][index].ToString();
-
-                    //if letter has been guessed - guess based on popular
-                    //if (GuessesSoFar.Contains(guess))
-                    //    {
-                    //        //just guess on the popular side of random letters
-                    //        {
-                    //            guess = PossibleLetters[0].ToString();
-                    //        }
-                    //    }
-                    
-                    
-                    PossibleLetters = PossibleLetters.Replace(guess, "");
 
                     //letter is a good guess
-                    if (TheWord.Contains(guess))
+                    if (correct)
                     {
-                        
-                        //change word string
-                        string temp = "";
-                        int i = 0;
-                        foreach (char c in TheWord)
-                        {
-                            string letter = c.ToString();
-                            if (letter.Equals(guess)) //add it and sort words based on position of guess
-                            {
-                                temp += guess;
-                                GoodGuesses += guess;
-                                //might need to do a temp set = to possibleWordSet and run the query on that
-                                PossibleWordSet = new SortedSet<string> (from p in PossibleWordSet
-                                                                         where p[i] == TheWord[i]
-                                                                         select p);
-                            }
-                            else
-                            {
-                                temp += GuessesSoFar[i];
-                            }
-                            i++;
-                        }
-                        label2.Text = temp;
-                        GuessesSoFar = temp;
-
-                        
+                        IndexButton.Show();
+                        IndexInfo.Show();
+                        TipText.Show();
+                        WrongButton.Hide();
+                        RightButton.Hide();
 
                     }//letter is a bad guess
                     else
                     {
-                        BadGuesses += guess;
+
+                        BadGuesses += Guess;
+                        PossibleLetters = PossibleLetters.Replace(Guess, "");
+                        Guess = PossibleLetters[0].ToString();
+                        label2.Text = TheWord;
+                        GuessText.Text = Guess;
+
+                        
                         label1.Text = BadGuesses;
                         GuessCount--;
                         GuessCountLabel.Text = GuessCount.ToString();
                         //remove words from list containing bad guessed letter
                         PossibleWordSet = new SortedSet<string>(from p in PossibleWordSet
-                                                                where !p.Contains(guess)
+                                                                where !p.Contains(Guess)
                                                                 select p);
+                        possible.Text = PossibleLetters;
+                        possiblewordcount.Text = PossibleWordSet.Count.ToString();
                     }
 
-                    possible.Text = PossibleLetters;
-                    possiblewordcount.Text = PossibleWordSet.Count.ToString();
+                    
 
                     if (GuessCount == 0)
                     {
                         WinningGif.Show();
+                        RightButton.Hide();
+                        WrongButton.Hide();
+                        GuessText.Hide();
                     }
-                    if(label2.Text == TheWord)
-                    {
-                        GuessButton.Hide();
-                    }
+
+                    
+                    
+
+                    //if (label2.Text == TheWord)
+                    //{
+                    //    RightButton.Hide();
+                    //    WrongButton.Hide();
+                    //}
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex);
                 }
@@ -163,27 +203,32 @@ namespace Hangman
                 //                 select w).ToArray(); // O(logn) search for words with certain length
 
                 PossibleWordSet = new SortedSet<string>(from w in Words
-                                                 where w.Length == numericUpDown1.Value
-                                                 select w);
+                                                        where w.Length == numericUpDown1.Value
+                                                        select w);
 
                 Random r = new Random();
 
                 //TheWord = PossibleWords[r.Next(0, PossibleWords.Length)];
-                //Need to hook this up to user input
-                TheWord = "ben";
 
-                for(int i = 0; i < TheWord.Length; i++)
+                for (int i = 0; i < numericUpDown1.Value; i++)
                 {
-                    GuessesSoFar += "_";
+                    TheWord += "_";
                 }
                 //set text for guesses _ _ _
-                label2.Text = GuessesSoFar;
+                label2.Text = TheWord;
 
-                foreach(var item in TheWord)
+                foreach (var item in TheWord)
                 {
                     test.Text += item;
                 }
-                
+
+                //initial guess on play
+                //Guess = PossibleLetters[0].ToString();
+
+                GuessText.Text = Guess;
+
+                //PossibleLetters = PossibleLetters.Replace(Guess, "");
+
             }
         }
 
@@ -195,7 +240,7 @@ namespace Hangman
                           "words.txt");
 
             Words = File.ReadAllLines(ListPath);
-            WordSet = new SortedSet<string>(Words); 
+            WordSet = new SortedSet<string>(Words);
 
         }
 
@@ -205,23 +250,30 @@ namespace Hangman
             ObtainWordList();
             GoodGuesses = "";
             BadGuesses = "";
+            GuessText.Hide();
+            WinningGif.Hide();
+            TipText.Hide();
         }
 
         //when new word is picked
         public void ResetGame()
         {
+            
             TheWordText.Text = "The Word Being Guessed:";
             PossibleText.Text = "# of Possible Words Left:";
             LettersLeftText.Text = "Letters Left:";
             BadGuessesText.Text = "Bad Guesses:";
             GoodGuessesText.Text = "Good Guesses:";
             GuessesLeftText.Text = "Guesses Left:";
+            GoodGuessesText.Hide();
             GuessCount = 9;
             GameStarted = true;
             GuessCountLabel.Text = GuessCount.ToString();
             GuessCountLabel.Show();
             WinningGif.Hide();
-            GuessButton.Show();
+            RightButton.Show();
+            WrongButton.Show();
+            GuessText.Show();
             GoodGuesses = "";
             BadGuesses = "";
             PossibleLetters = "etainoshrdlucmfwygpbvkqjxz"; //most popular letters based on https://en.oxforddictionaries.com/explore/which-letters-are-used-most
@@ -230,6 +282,11 @@ namespace Hangman
             label2.Text = "";
             test.Text = "";
             TheWord = "";
+            Guess = PossibleLetters[0].ToString();
+            label2.Text = Guess;
+            IndexButton.Hide();
+            IndexInfo.Hide();
+            TipText.Hide();
         }
     }
 }

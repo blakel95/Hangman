@@ -23,23 +23,3 @@ D:\Hangman\Hangman\bin\Debug\Hangman.exe.manifest
 D:\Hangman\Hangman\bin\Debug\Hangman.application
 D:\Hangman\Hangman\obj\Debug\Hangman.exe.manifest
 D:\Hangman\Hangman\obj\Debug\Hangman.application
-C:\Users\Blaker\Documents\Visual Studio 2017\Projects\Hangman\Hangman\bin\Debug\Hangman.exe.manifest
-C:\Users\Blaker\Documents\Visual Studio 2017\Projects\Hangman\Hangman\bin\Debug\Hangman.application
-C:\Users\Blaker\Documents\Visual Studio 2017\Projects\Hangman\Hangman\obj\Debug\Hangman.csproj.CoreCompileInputs.cache
-C:\Users\Blaker\Documents\Visual Studio 2017\Projects\Hangman\Hangman\obj\Debug\Hangman.exe.manifest
-C:\Users\Blaker\Documents\Visual Studio 2017\Projects\Hangman\Hangman\obj\Debug\Hangman.application
-F:\Hangman\Hangman\bin\Debug\words.txt
-F:\Hangman\Hangman\bin\Debug\Hangman.exe.config
-F:\Hangman\Hangman\bin\Debug\Hangman.exe.manifest
-F:\Hangman\Hangman\bin\Debug\Hangman.application
-F:\Hangman\Hangman\bin\Debug\Hangman.exe
-F:\Hangman\Hangman\bin\Debug\Hangman.pdb
-F:\Hangman\Hangman\obj\Debug\Hangman.Form1.resources
-F:\Hangman\Hangman\obj\Debug\Hangman.Properties.Resources.resources
-F:\Hangman\Hangman\obj\Debug\Hangman.csproj.GenerateResource.Cache
-F:\Hangman\Hangman\obj\Debug\Hangman.csproj.CoreCompileInputs.cache
-F:\Hangman\Hangman\obj\Debug\Hangman.exe.manifest
-F:\Hangman\Hangman\obj\Debug\Hangman.application
-F:\Hangman\Hangman\obj\Debug\Hangman.exe
-F:\Hangman\Hangman\obj\Debug\Hangman.pdb
-F:\Hangman\Hangman\obj\Debug\Hangman.csprojResolveAssemblyReference.cache
