@@ -39,6 +39,7 @@ namespace Hangman
             RightButton.Hide();
             IndexInfo.Hide();
             IndexButton.Hide();
+            guessRightLabel.Hide();
         }
 
         private void IndexButton_Click(object sender, EventArgs e)
@@ -96,6 +97,17 @@ namespace Hangman
             WrongButton.Show();
             RightButton.Show();
             IndexInfo.Clear();
+
+            if(!TheWord.Contains("_"))
+            {
+                guessRightLabel.Text = "We Guessed Right!";
+                guessRightLabel.Show();
+                RightButton.Hide();
+                WrongButton.Hide();
+                IndexButton.Hide();
+                IndexInfo.Hide();
+                GuessText.Hide();
+            }
         }
 
         private void RightButton_Click(object sender, EventArgs e)

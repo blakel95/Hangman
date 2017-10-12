@@ -54,6 +54,7 @@
             this.IndexButton = new System.Windows.Forms.Button();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.TipText = new System.Windows.Forms.Label();
+            this.guessRightLabel = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WinningGif)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WrongButton)).BeginInit();
@@ -101,7 +102,7 @@
             this.PlayButton.Name = "PlayButton";
             this.PlayButton.Size = new System.Drawing.Size(70, 23);
             this.PlayButton.TabIndex = 2;
-            this.PlayButton.Text = "Pick Word";
+            this.PlayButton.Text = "Start";
             this.PlayButton.UseVisualStyleBackColor = true;
             this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
@@ -282,11 +283,19 @@
             this.TipText.TabIndex = 24;
             this.TipText.Text = "Zero-based index. Seperate multiples by \',\' ie. \"2,4,6\"";
             // 
+            // guessRightLabel
+            // 
+            this.guessRightLabel.Location = new System.Drawing.Point(287, 172);
+            this.guessRightLabel.Name = "guessRightLabel";
+            this.guessRightLabel.Size = new System.Drawing.Size(100, 20);
+            this.guessRightLabel.TabIndex = 25;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(680, 344);
+            this.Controls.Add(this.guessRightLabel);
             this.Controls.Add(this.WinningGif);
             this.Controls.Add(this.TipText);
             this.Controls.Add(this.IndexButton);
@@ -350,5 +359,6 @@
         private System.Windows.Forms.Button IndexButton;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         private System.Windows.Forms.Label TipText;
+        private System.Windows.Forms.TextBox guessRightLabel;
     }
 }
