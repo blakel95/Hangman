@@ -40,6 +40,7 @@ namespace Hangman
             StartButton.Hide();
             PlayButton.Show();
             numericUpDown1.Show();
+            HowManyText.Text = "How Many Letters In The Word?";
         }
 
         private void GuessButton_Click(object sender, EventArgs e)
@@ -201,6 +202,12 @@ namespace Hangman
         //when new word is picked
         public void ResetGame()
         {
+            TheWordText.Text = "The Word Being Guessed:";
+            PossibleText.Text = "# of Possible Words Left:";
+            LettersLeftText.Text = "Letters Left:";
+            BadGuessesText.Text = "Bad Guesses:";
+            GoodGuessesText.Text = "Good Guesses:";
+            GuessesLeftText.Text = "Guesses Left:";
             GuessCount = 9;
             GameStarted = true;
             GuessCountLabel.Text = GuessCount.ToString();
