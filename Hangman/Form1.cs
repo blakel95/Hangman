@@ -17,7 +17,10 @@ namespace Hangman
     public partial class Form1 : Form
     {
         //list of words and list of possible words left
-        public string[] Words, PossibleWords;
+        public string[] Words;
+
+        public SortedSet<String> possibleWordSet, tempSet;
+
         //the chosen word, bad and good guess lists, unchosen letters, guess format
         public string TheWord, BadGuesses, GoodGuesses, PossibleLetters, GuessesSoFar;
         //number of guesses
@@ -50,37 +53,33 @@ namespace Hangman
             {
                 try
                 {
-                    //pick beginning letter based on popularity, words left
+                    //guess first most common letter left
                     Random r = new Random();
                     int index = 0;
                     string guess = "";
 
-                    //guess first letters of remaining words after first hit
-                    if(GoodGuesses.Length == 1)
-                    {
-                        index = r.Next(0, PossibleWords.Length);
-                        guess = PossibleWords[index][PossibleWords[index].Length-1].ToString();
-                    }//if we are one guess away
-                    else if(TheWord.Length - GoodGuesses.Length == 1)
-                    {
-                        index = label2.Text.IndexOf("_");
-                        guess = PossibleWords[0][index].ToString();
-                    }else
-                    {
-                        //guess based on letters found in possible words
-                        index = label2.Text.IndexOf("_");
-                        guess = PossibleWords[r.Next(0,PossibleWords.Length)][index].ToString();
+                    guess = PossibleLetters[0].ToString();
 
-                        //if letter has been guessed - guess based on popular
-                        if (GuessesSoFar.Contains(guess))
-                        {
-                            //just guess on the popular side of random letters
-                            {
-                                index = r.Next(0, PossibleLetters.Length / 3);
-                                guess = PossibleLetters[index].ToString();
-                            }
-                        }
-                    }
+                    ////if we are one guess away
+                    //if(TheWord.Length - GoodGuesses.Length == 1)
+                    //{
+                    //    index = label2.Text.IndexOf("_");
+                    //    guess = PossibleWords[0][index].ToString();
+                    //}else
+                    //{
+                    //    //guess based on letters found in possible words
+                    //    index = label2.Text.IndexOf("_");
+                    //    guess = PossibleWords[r.Next(0,PossibleWords.Length)][index].ToString();
+
+                    //if letter has been guessed - guess based on popular
+                    //if (GuessesSoFar.Contains(guess))
+                    //    {
+                    //        //just guess on the popular side of random letters
+                    //        {
+                    //            guess = PossibleLetters[0].ToString();
+                    //        }
+                    //    }
+                    
                     
                     PossibleLetters = PossibleLetters.Replace(guess, "");
 
@@ -98,9 +97,10 @@ namespace Hangman
                             {
                                 temp += guess;
                                 GoodGuesses += guess;
-                                PossibleWords = (from p in PossibleWords
-                                                 where p[i] == TheWord[i]
-                                                 select p).ToArray();
+                                //might need to do a temp set = to possibleWordSet and run the query on that
+                                possibleWordSet = new SortedSet<string> (from p in possibleWordSet
+                                                                         where p[i] == TheWord[i]
+                                                                         select p);
                             }
                             else
                             {
@@ -121,13 +121,13 @@ namespace Hangman
                         GuessCount--;
                         GuessCountLabel.Text = GuessCount.ToString();
                         //remove words from list containing bad guessed letter
-                        PossibleWords = (from p in PossibleWords
-                                         where !p.Contains(guess)
-                                         select p).ToArray();
+                        possibleWordSet = new SortedSet<string>(from p in possibleWordSet
+                                                                where !p.Contains(guess)
+                                                                select p);
                     }
 
                     possible.Text = PossibleLetters;
-                    possiblewordcount.Text = PossibleWords.Length.ToString();
+                    possiblewordcount.Text = possibleWordSet.Count.ToString();
 
                     if (GuessCount == 0)
                     {
@@ -158,12 +158,19 @@ namespace Hangman
                 //reset
                 ResetGame();
 
-                PossibleWords = (from w in Words
-                                 where w.Length == numericUpDown1.Value
-                                 select w).ToArray(); // O(logn) search for words with certain length
+                //PossibleWords = (from w in Words
+                //                 where w.Length == numericUpDown1.Value
+                //                 select w).ToArray(); // O(logn) search for words with certain length
+
+                possibleWordSet = new SortedSet<string>(from w in Words
+                                                 where w.Length == numericUpDown1.Value
+                                                 select w);
 
                 Random r = new Random();
-                TheWord = PossibleWords[r.Next(0, PossibleWords.Length)];
+
+                //TheWord = PossibleWords[r.Next(0, PossibleWords.Length)];
+
+                TheWord = "ben";
 
                 for(int i = 0; i < TheWord.Length; i++)
                 {
