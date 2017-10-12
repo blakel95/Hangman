@@ -19,7 +19,7 @@ namespace Hangman
         //list of words and list of possible words left
         public string[] Words;
 
-        public SortedSet<String> possibleWordSet, tempSet;
+        public SortedSet<String> PossibleWordSet, TempSet, WordSet;
 
         //the chosen word, bad and good guess lists, unchosen letters, guess format
         public string TheWord, BadGuesses, GoodGuesses, PossibleLetters, GuessesSoFar;
@@ -98,7 +98,7 @@ namespace Hangman
                                 temp += guess;
                                 GoodGuesses += guess;
                                 //might need to do a temp set = to possibleWordSet and run the query on that
-                                possibleWordSet = new SortedSet<string> (from p in possibleWordSet
+                                PossibleWordSet = new SortedSet<string> (from p in PossibleWordSet
                                                                          where p[i] == TheWord[i]
                                                                          select p);
                             }
@@ -121,13 +121,13 @@ namespace Hangman
                         GuessCount--;
                         GuessCountLabel.Text = GuessCount.ToString();
                         //remove words from list containing bad guessed letter
-                        possibleWordSet = new SortedSet<string>(from p in possibleWordSet
+                        PossibleWordSet = new SortedSet<string>(from p in PossibleWordSet
                                                                 where !p.Contains(guess)
                                                                 select p);
                     }
 
                     possible.Text = PossibleLetters;
-                    possiblewordcount.Text = possibleWordSet.Count.ToString();
+                    possiblewordcount.Text = PossibleWordSet.Count.ToString();
 
                     if (GuessCount == 0)
                     {
@@ -162,14 +162,14 @@ namespace Hangman
                 //                 where w.Length == numericUpDown1.Value
                 //                 select w).ToArray(); // O(logn) search for words with certain length
 
-                possibleWordSet = new SortedSet<string>(from w in Words
+                PossibleWordSet = new SortedSet<string>(from w in Words
                                                  where w.Length == numericUpDown1.Value
                                                  select w);
 
                 Random r = new Random();
 
                 //TheWord = PossibleWords[r.Next(0, PossibleWords.Length)];
-
+                //Need to hook this up to user input
                 TheWord = "ben";
 
                 for(int i = 0; i < TheWord.Length; i++)
@@ -195,6 +195,7 @@ namespace Hangman
                           "words.txt");
 
             Words = File.ReadAllLines(ListPath);
+            WordSet = new SortedSet<string>(Words); 
 
         }
 
